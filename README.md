@@ -57,9 +57,9 @@ const MyComponent = () => {
 After transformation, it will become:
 
 ```jsx
-const _Anonymous_box_padding = ['m', 'l@large'];
+const _hoist_attr_box_padding = ['m', 'l@large'];
 const MyComponent = () => {
-  return <Box box-padding={_Anonymous_box_padding} />;
+  return <Box box-padding={_hoist_attr_box_padding} />;
 };
 ```
 
@@ -80,9 +80,9 @@ const MyComponent = () => {
 Output:
 
 ```jsx
-const _Anonymous_style = { width: { size: 100, values: [100, 200] }, height: 200 };
+const _hoist_attr_style = { width: { size: 100, values: [100, 200] }, height: 200 };
 const MyComponent = () => {
-  return <Box style={_Anonymous_style} />;
+  return <Box style={_hoist_attr_style} />;
 };
 ```
 
