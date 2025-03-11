@@ -1,15 +1,30 @@
 {
   "name": "babel-plugin-jsx-attribute-to-const",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "jest",
     "build": "babel src --out-dir dist",
     "lint": "eslint .",
-    "format": "prettier --write ."
+    "format": "prettier --write .",
+    "prepublishOnly": "npm run build"
   },
-  "keywords": [],
-  "author": "",
+  "keywords": [
+    "babel",
+    "babel-plugin",
+    "react",
+    "jsx",
+    "constants"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexmost/babel-plugin-jsx-attribute-to-const.git"
+  },
+  "bugs": {
+    "url": "https://github.com/alexmost/babel-plugin-jsx-attribute-to-const/issues"
+  },
+  "homepage": "https://github.com/alexmost/babel-plugin-jsx-attribute-to-const#readme",
+  "author": "alexander",
   "license": "ISC",
   "description": "",
   "devDependencies": {

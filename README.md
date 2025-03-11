@@ -1,6 +1,9 @@
 # babel-plugin-jsx-attribute-to-const
 
-A Babel plugin that transforms specific JSX attributes into constants, improving code readability and performance by avoiding inline object and array definitions.
+A Babel plugin that intelligently transforms specified JSX attributes into constants, 
+aims to enhance performance of your React components. 
+This plugin targets inline object and array definitions, which, when used directly in JSX, 
+can lead to unnecessary re-renders and affect performance.
 
 ## Table of Contents
 
