@@ -27,19 +27,35 @@ describe('babel-plugin-jsx-attribute-to-const', () => {
     `;
 
     const expectedOutput = normalizeWhitespace(`
-      const _Anonymous_customData = { key: 'value' };
-      const _Anonymous_style = { width: 100 };
-      const _Anonymous_boxPadding = ['m', 'l@large'];
+      const _hoist_attr_customData = { key: 'value' };
+      const _hoist_attr_style = { width: 100 };
+      const _hoist_attr_boxPadding = ['m', 'l@large'];
       const MyComponent = () => {
         return /*#__PURE__*/React.createElement(Box, {
-          "box-padding": _Anonymous_boxPadding,
-          style: _Anonymous_style,
-          customData: _Anonymous_customData
+          "box-padding": _hoist_attr_boxPadding,
+          style: _hoist_attr_style,
+          customData: _hoist_attr_customData
         });
       };
     `);
 
     const outputCode = transform(inputCode);
+    expect(outputCode).toEqual(expectedOutput);
+  });
+
+  test('should not extract template literals', () => {
+    const inputCode = `
+    const MyComponent = (props) => {
+      return <Box box-padding={{ size: \`100-\${props.size}\`, color: 'blue' }} />;
+    };
+  `;
+
+    const outputCode = transform(inputCode);
+    const expectedOutput = normalizeWhitespace(`
+    const MyComponent = props => {
+      return /*#__PURE__*/React.createElement(Box, { "box-padding": { size: \`100-\${props.size}\`, color: 'blue' } });
+    };
+    `);
     expect(outputCode).toEqual(expectedOutput);
   });
 });
@@ -53,10 +69,10 @@ describe('babel-plugin-jsx-attribute-to-const objects', () => {
     `;
 
     const expectedOutput = normalizeWhitespace(`
-      const _Anonymous_style = { width: 100, height: 200 };
+      const _hoist_attr_style = { width: 100, height: 200 };
       const MyComponent = () => {
         return /*#__PURE__*/React.createElement(Box, {
-        style: _Anonymous_style
+        style: _hoist_attr_style
       });
     };
     `);
@@ -73,10 +89,10 @@ describe('babel-plugin-jsx-attribute-to-const objects', () => {
     `;
 
     const expectedOutput = normalizeWhitespace(`
-      const _Anonymous_style = { width: [100, 200], height: 200 };
+      const _hoist_attr_style = { width: [100, 200], height: 200 };
       const MyComponent = () => {
         return /*#__PURE__*/React.createElement(Box, {
-        style: _Anonymous_style
+        style: _hoist_attr_style
       });
     };
     `);
@@ -98,13 +114,13 @@ describe('babel-plugin-jsx-attribute-to-const objects', () => {
 
     const outputCode = transform(inputCode);
     const expectedOutput = normalizeWhitespace(`
-    const _Anonymous_boxPadding2 = { size: 'large' };
-    const _Anonymous_boxPadding = { size: 'small' };
+    const _hoist_attr_boxPadding2 = { size: 'large' };
+    const _hoist_attr_boxPadding = { size: 'small' };
     const FirstComponent = () => {
-      return /*#__PURE__*/React.createElement(Box, { boxPadding: _Anonymous_boxPadding });
+      return /*#__PURE__*/React.createElement(Box, { boxPadding: _hoist_attr_boxPadding });
     };
     const SecondComponent = () => {
-      return /*#__PURE__*/React.createElement(Box, { boxPadding: _Anonymous_boxPadding2 });
+      return /*#__PURE__*/React.createElement(Box, { boxPadding: _hoist_attr_boxPadding2 });
     };
     `);
     expect(outputCode).toEqual(expectedOutput);
@@ -137,10 +153,10 @@ describe('babel-plugin-jsx-attribute-to-const arrays', () => {
     `;
 
     const expectedOutput = normalizeWhitespace(`
-      const _Anonymous_boxPadding = ['m', 'l@large'];
+      const _hoist_attr_boxPadding = ['m', 'l@large'];
       const MyComponent = () => {
         return /*#__PURE__*/React.createElement(Box, {
-        "box-padding": _Anonymous_boxPadding
+        "box-padding": _hoist_attr_boxPadding
       });
     };
     `);
@@ -179,13 +195,13 @@ describe('babel-plugin-jsx-attribute-to-const arrays', () => {
 
     const outputCode = transform(inputCode);
     const expectedOutput = normalizeWhitespace(`
-    const _Anonymous_boxPadding2 = ['m', 'large'];
-    const _Anonymous_boxPadding = ['m', 'small'];
+    const _hoist_attr_boxPadding2 = ['m', 'large'];
+    const _hoist_attr_boxPadding = ['m', 'small'];
     const FirstComponent = () => {
-      return /*#__PURE__*/React.createElement(Box, { boxPadding: _Anonymous_boxPadding });
+      return /*#__PURE__*/React.createElement(Box, { boxPadding: _hoist_attr_boxPadding });
     };
     const SecondComponent = () => {
-      return /*#__PURE__*/React.createElement(Box, { boxPadding: _Anonymous_boxPadding2 });
+      return /*#__PURE__*/React.createElement(Box, { boxPadding: _hoist_attr_boxPadding2 });
     };
     `);
     expect(outputCode).toEqual(expectedOutput);
@@ -199,9 +215,9 @@ describe('babel-plugin-jsx-attribute-to-const arrays', () => {
     `;
 
     const expectedOutput = normalizeWhitespace(`
-    const _Anonymous_style = [{ width: [100, 200] }, { height: 200 }];
+    const _hoist_attr_style = [{ width: [100, 200] }, { height: 200 }];
     const MyComponent = () => {
-      return /*#__PURE__*/React.createElement(Box, { style: _Anonymous_style });
+      return /*#__PURE__*/React.createElement(Box, { style: _hoist_attr_style });
     };
     `);
 

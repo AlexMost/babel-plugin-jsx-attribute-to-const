@@ -14,7 +14,7 @@ module.exports = function ({ types: t }) {
               (prop) => t.isObjectProperty(prop) && areAllPrimitives(prop.value)
             );
           }
-          return t.isLiteral(node); // Check if it's a primitive (including strings, numbers, booleans)
+          return t.isLiteral(node) && !t.isTemplateLiteral(node); // Check if it's a primitive (including strings, numbers, booleans)
         };
 
         path.traverse({
@@ -30,18 +30,7 @@ module.exports = function ({ types: t }) {
             // Ensure all properties or elements are primitives
             if (!areAllPrimitives(expr)) return;
 
-            const componentParent = innerPath.findParent(
-              (path) =>
-                path.isFunctionDeclaration() ||
-                path.isArrowFunctionExpression() ||
-                path.isClassDeclaration()
-            );
-
-            if (!componentParent) return;
-
-            const componentName = componentParent.node.id
-              ? componentParent.node.id.name
-              : 'Anonymous';
+            const componentName = '_hoist_attr';
 
             const uniqueVarName = innerPath.scope.generateUidIdentifier(
               `${componentName}_${innerPath.node.name.name}`
