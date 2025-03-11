@@ -1,6 +1,3 @@
-Here’s a sample `README.md` for your Babel plugin, **`babel-plugin-jsx-attribute-to-const`**. This README provides essential information for users, including installation instructions, usage examples, and details about the plugin’s functionality.
-
-```markdown
 # babel-plugin-jsx-attribute-to-const
 
 A Babel plugin that transforms specific JSX attributes into constants, improving code readability and performance by avoiding inline object and array definitions.
