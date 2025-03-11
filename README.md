@@ -9,7 +9,6 @@ A Babel plugin that transforms specific JSX attributes into constants, improving
 - [Options](#options)
 - [Examples](#examples)
 - [Contributing](#contributing)
-- [License](#license)
 
 ## Installation
 
